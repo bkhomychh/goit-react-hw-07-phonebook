@@ -1,24 +1,53 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { nanoid } from 'nanoid';
+import { toast } from 'react-toastify';
 
-const initialContactsState = [];
+import { fetchContacts, addContact, deleteContact } from './operations';
 
-export const contactsSlice = createSlice({
+const initialContactsState = { items: [], isLoading: false, error: null };
+
+const handlePending = state => {
+  state.isLoading = true;
+};
+const handleRejected = (state, { payload }) => {
+  state.isLoading = false;
+  state.error = payload;
+  toast.error(payload);
+};
+
+const contactsSlice = createSlice({
   name: 'contacts',
   initialState: initialContactsState,
-  reducers: {
-    addContact(state, { payload: { name, number } }) {
-      const newContact = {
-        id: nanoid(),
-        name,
-        number,
-      };
-      state.push(newContact);
+  extraReducers: {
+    [fetchContacts.pending]: handlePending,
+    [fetchContacts.fulfilled](state, { payload }) {
+      state.isLoading = false;
+      state.error = null;
+      state.items = payload;
     },
-    deleteContact(state, { payload }) {
-      return state.filter(({ id }) => id !== payload);
+    [fetchContacts.rejected]: handleRejected,
+
+    [addContact.pending]: handlePending,
+    [addContact.fulfilled](state, { payload }) {
+      state.isLoading = false;
+      state.error = null;
+      state.items.push(payload);
+
+      toast.success(`${payload.name} has been added to the contacts`);
     },
+    [addContact.rejected]: handleRejected,
+
+    [deleteContact.pending]: handlePending,
+    [deleteContact.fulfilled](state, { payload }) {
+      state.isLoading = false;
+      state.error = null;
+
+      const index = state.items.findIndex(contact => contact.id === payload.id);
+      state.items.splice(index, 1);
+
+      toast.success(`${payload.name} has been deleted from the contacts`);
+    },
+    [deleteContact.rejected]: handleRejected,
   },
 });
 
-export const { addContact, deleteContact } = contactsSlice.actions;
+export { contactsSlice };

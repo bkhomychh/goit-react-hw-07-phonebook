@@ -1,20 +1,21 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
 import { getContacts } from 'redux/selectors';
+import { addContact } from 'redux/operations';
+import { toast } from 'react-toastify';
 
 import { Form, Label, AddBtn } from './ContactForm.styled';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setPhone] = useState('');
 
   const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
 
   const resetState = () => {
     setName('');
-    setNumber('');
+    setPhone('');
   };
 
   const handleChange = ({ target: { name, value } }) => {
@@ -22,11 +23,11 @@ export const ContactForm = () => {
       case 'name':
         setName(value);
         break;
-      case 'number':
-        setNumber(value);
+      case 'phone':
+        setPhone(value);
         break;
       default:
-        console.log('This field does not exist');
+        toast.error('This field does not exist');
     }
   };
 
@@ -39,11 +40,11 @@ export const ContactForm = () => {
     );
 
     if (!isNewContact) {
-      alert(`${name} is already in contacts.`);
+      toast.error(`${name} is already in contacts.`);
       return;
     }
 
-    dispatch(addContact({ name, number }));
+    dispatch(addContact({ name, phone }));
     resetState();
   };
 
@@ -65,11 +66,11 @@ export const ContactForm = () => {
         Phone number
         <input
           type="tel"
-          name="number"
+          name="phone"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
-          value={number}
+          value={phone}
           onChange={handleChange}
         />
       </Label>

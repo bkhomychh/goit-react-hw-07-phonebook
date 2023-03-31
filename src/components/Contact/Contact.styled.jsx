@@ -15,7 +15,7 @@ export const Name = styled.span`
   line-height: calc(24 / 20);
 `;
 
-export const Number = styled.span`
+export const Phone = styled.span`
   font-size: ${({ theme }) => theme.fontSize.textSecondary};
   font-weight: 500;
 `;
