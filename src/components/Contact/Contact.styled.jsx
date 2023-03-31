@@ -6,7 +6,11 @@ export const Item = styled.li`
   gap: 20px;
   padding: 10px 20px;
 
-  border: ${({ theme }) => `1px solid ${theme.color.bgSecondary}`};
+  border: none;
+
+  &:not(:last-child) {
+    border-bottom: ${({ theme }) => `1px solid ${theme.color.bgSecondary}`};
+  }
 `;
 
 export const Name = styled.span`

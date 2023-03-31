@@ -1,11 +1,11 @@
 export const theme = {
   color: {
     textPrimary: '#181818',
-    textSecondary: '#2c2c2cfa',
+    textSecondary: '#8E8E8E',
     textAccent: '#ffffff',
 
     bgPrimary: '#ffffff',
-    bgSecondary: '#9b9b9b',
+    bgSecondary: '#CFDBE4',
     bgAccent: '#2156f1',
     bgInfo: '#4285F4',
     bgSuccess: '#01d464',

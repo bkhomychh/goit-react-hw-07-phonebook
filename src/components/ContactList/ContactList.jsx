@@ -26,11 +26,13 @@ export const ContactList = () => {
 
   return (
     <Wrapper>
-      <StyledList>
-        {filteredContacts.map(({ id, name, phone }) => (
-          <Contact id={id} name={name} phone={phone} key={id} />
-        ))}
-      </StyledList>
+      {filteredContacts.length > 0 && (
+        <StyledList>
+          {filteredContacts.map(({ id, name, phone }) => (
+            <Contact id={id} name={name} phone={phone} key={id} />
+          ))}
+        </StyledList>
+      )}
       {isLoading && <ContentLoader />}
     </Wrapper>
   );
