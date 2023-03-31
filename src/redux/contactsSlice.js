@@ -32,7 +32,7 @@ const contactsSlice = createSlice({
       state.error = null;
       state.items.push(payload);
 
-      toast.success(`${payload.name} has been added to the contacts`);
+      toast.success(`${payload.name} has been added to your contacts`);
     },
     [addContact.rejected]: handleRejected,
 
@@ -44,7 +44,7 @@ const contactsSlice = createSlice({
       const index = state.items.findIndex(contact => contact.id === payload.id);
       state.items.splice(index, 1);
 
-      toast.success(`${payload.name} has been deleted from the contacts`);
+      toast.success(`${payload.name} has been deleted from your contacts`);
     },
     [deleteContact.rejected]: handleRejected,
   },

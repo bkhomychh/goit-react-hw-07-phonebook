@@ -1,14 +1,17 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts, getFilter } from 'redux/selectors';
+import { getContacts, getFilter, getIsLoading } from 'redux/selectors';
 
 import { Contact } from 'components/Contact';
+import ContentLoader from 'components/ContentLoader';
 
-import { StyledList } from './ContactList.styled';
-import { useEffect } from 'react';
+import { StyledList, Wrapper } from './ContactList.styled';
+
 import { fetchContacts } from 'redux/operations';
 
 export const ContactList = () => {
   const contacts = useSelector(getContacts);
+  const isLoading = useSelector(getIsLoading);
   const filter = useSelector(getFilter);
   const dispatch = useDispatch();
 
@@ -22,10 +25,13 @@ export const ContactList = () => {
   );
 
   return (
-    <StyledList>
-      {filteredContacts.map(({ id, name, phone }) => (
-        <Contact id={id} name={name} phone={phone} key={id} />
-      ))}
-    </StyledList>
+    <Wrapper>
+      <StyledList>
+        {filteredContacts.map(({ id, name, phone }) => (
+          <Contact id={id} name={name} phone={phone} key={id} />
+        ))}
+      </StyledList>
+      {isLoading && <ContentLoader />}
+    </Wrapper>
   );
 };
