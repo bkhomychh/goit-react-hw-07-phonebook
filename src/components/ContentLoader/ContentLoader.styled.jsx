@@ -14,7 +14,16 @@ export const Backdrop = styled.div`
 
   background-color: rgba(210, 210, 210, 0.3);
 
+  & > div {
+    width: 30%;
+    height: 30%;
+    min-width: 80px;
+    min-height: 80px;
+  }
+
   svg {
-    stroke: ${({ theme }) => theme.color.bgAccent};
+    stroke: ${({ theme }) => theme.color.bgSecondary};
+    width: 100%;
+    height: 100%;
   }
 `;

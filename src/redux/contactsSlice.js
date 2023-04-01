@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
 
 import { fetchContacts, addContact, deleteContact } from './operations';
 
@@ -11,7 +10,6 @@ const handlePending = state => {
 const handleRejected = (state, { payload }) => {
   state.isLoading = false;
   state.error = payload;
-  toast.error(payload);
 };
 
 const contactsSlice = createSlice({
@@ -31,8 +29,6 @@ const contactsSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       state.items.push(payload);
-
-      toast.success(`${payload.name} has been added to your contacts`);
     },
     [addContact.rejected]: handleRejected,
 
@@ -40,11 +36,8 @@ const contactsSlice = createSlice({
     [deleteContact.fulfilled](state, { payload }) {
       state.isLoading = false;
       state.error = null;
-
       const index = state.items.findIndex(contact => contact.id === payload.id);
       state.items.splice(index, 1);
-
-      toast.success(`${payload.name} has been deleted from your contacts`);
     },
     [deleteContact.rejected]: handleRejected,
   },

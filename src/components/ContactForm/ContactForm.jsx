@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContacts } from 'redux/selectors';
 import { addContact } from 'redux/operations';
@@ -9,6 +9,7 @@ import { Form, Label, AddBtn } from './ContactForm.styled';
 export const ContactForm = () => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const toastId = useRef(null);
 
   const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
@@ -40,7 +41,9 @@ export const ContactForm = () => {
     );
 
     if (!isNewContact) {
-      toast.error(`${name} is already in contacts.`);
+      if (!toast.isActive(toastId.current)) {
+        toastId.current = toast.warn(`${name} is already in your contacts.`);
+      }
       return;
     }
 
